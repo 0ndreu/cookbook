@@ -18,7 +18,7 @@ class TimeToEat(models.Model):
 
 class Product(models.Model):
     METRICS = (
-        ('л', 'литры'),
+        ('л', 'миллилитры'),
         ('г', 'граммы'),
         ('шт', 'штуки')
     )
@@ -29,6 +29,7 @@ class Product(models.Model):
     proteins = models.FloatField(default=0)
     fats = models.FloatField(default=0)
     carbohydrates = models.FloatField(default=0)
+    # image = models.ImageField(null=True)
 
     def __str__(self):
         return self.title
@@ -46,6 +47,7 @@ class Receipt(models.Model):
     fats = models.FloatField(default=0)
     carbohydrates = models.FloatField(default=0)
     moderation = models.BooleanField(default=False)
+    # image = models.ImageField(null=True)
 
     def __str__(self):
         return self.title
