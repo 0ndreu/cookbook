@@ -57,15 +57,15 @@ class ReceiptHasProduct(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count_of_product = models.PositiveIntegerField(default=0)
-    #
+
     # def __str__(self):
-    #     return self.receipt
+    #     return self.receipt.title
 
 
 class Fridge(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     how_many = models.PositiveIntegerField(default=0)
-    #
+
     # def __str__(self):
-    #     return self.user
+    #     return self.user.username
