@@ -19,4 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('fridge/', include('fridge.urls'))
+    path('auth/', include('djoser.urls')),
+    path('api/v1/', include('OuiCheff.urls'))
 ]

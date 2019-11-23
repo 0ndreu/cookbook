@@ -1,10 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-
 from .models import *
 
 
-class UserSerializer(serializers.Serializer):
+class UserSerializer(serializers.ModelSerializer):
     """"
     Сериализация пользователя
     """
@@ -13,7 +11,7 @@ class UserSerializer(serializers.Serializer):
         fields = ('id', 'username')
 
 
-class ProductSerializer(serializers.Serializer):
+class ProductSerializer(serializers.ModelSerializer):
     """
     Сериализация продуктов
     """
@@ -22,14 +20,14 @@ class ProductSerializer(serializers.Serializer):
         fields = ('title', 'description', 'metric', 'calories', 'proteins', 'fats', 'carbohydrates')
 
 
-class TimeToEatSerializer(serializers.Serializer):
+class TimeToEatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TimeToEat
         fields = 'time_to_eat'      # is that true??
 
 
-class ReceiptSerializer(serializers.Serializer):
+class ReceiptSerializer(serializers.ModelSerializer):
     """
     Сериализация рецептов
     """
@@ -43,13 +41,20 @@ class ReceiptSerializer(serializers.Serializer):
                   'proteins', 'fats', 'carbohydrates', 'moderation')
 
 
-class FridgeSerializer(serializers.Serializer):
+class ProductForFridgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('title', 'description', 'metric')
+
+
+class FridgeSerializer(serializers.ModelSerializer):
     """"
     Сериализация холодильника
     """
-    user = UserSerializer()
-    product = ProductSerializer()
+    product = ProductForFridgeSerializer()
 
     class Meta:
         model = Fridge
-        fields = ('user', 'product', 'how_many')
+        fields = ('product', 'how_many')
+
+# class FridgePostSerializer
