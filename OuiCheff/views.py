@@ -6,16 +6,17 @@ from rest_framework.decorators import action
 from .serializers import *
 
 
-class Products(APIView):
+class ProductViewSet(viewsets.ModelViewSet):
     """
     Выводит список продуктов и добавляет новый продукт
     """
-    permission_classes = [permissions.AllowAny, ]
+    permission_classes = [permissions.IsAuthenticated, ]
 
-    def get(self, request):
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+    serializer_class = ProductSerializer
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return Product.objects.all()
 
 
 class FridgeViewSet(viewsets.ModelViewSet):
