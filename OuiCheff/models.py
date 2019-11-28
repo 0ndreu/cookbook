@@ -67,5 +67,5 @@ class Fridge(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     how_many = models.PositiveIntegerField(default=0)
 
-    # def __str__(self):
-    #     return self.user.username
+    def __str__(self):
+        return '%s(%d)'.format(self.product.title, self.how_many)

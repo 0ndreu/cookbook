@@ -15,10 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from OuiCheff.views import FridgeViewSet
+
+
+router = DefaultRouter()
+router.register('fridge', FridgeViewSet, base_name='fridge')
+
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     # path('fridge/', include('fridge.urls'))
     path('auth/', include('djoser.urls')),
-    path('api/v1/', include('OuiCheff.urls'))
+    # path('api/v1/', include('OuiCheff.urls'))
 ]

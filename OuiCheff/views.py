@@ -1,6 +1,7 @@
 from rest_framework.views import APIView        # с помоцью него классы рест фрейверка
 from rest_framework.response import Response    # вывод ответа на клиентскую часть
-from rest_framework import permissions, status, generics       # проверять пользователя и давать доступы
+from rest_framework import permissions, viewsets, status, generics       # проверять пользователя и давать доступы
+from rest_framework.decorators import action
 
 from .serializers import *
 
@@ -16,26 +17,13 @@ class Products(APIView):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class Fridges(APIView):
+class FridgeViewSet(viewsets.ModelViewSet):
     """
-    Холодильник
+    продукты в холодильнике и их добавление
     """
-    permission_classes = [permissions.AllowAny ]
+    serializer_class = FridgeSerializer
+    lookup_field = 'product_id'
 
-    def get(self, request):
-        fridges = Fridge.objects.filter(user=request.user)
-        serializer = FridgeSerializer(fridges, many=True)
-        return Response({'data': serializer.data})
-
-    def post(self, request):
-        pass
-
-
+    def get_queryset(self):
+        return Fridge.objects.filter(user=self.request.user)
