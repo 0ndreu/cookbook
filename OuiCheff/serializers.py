@@ -32,13 +32,14 @@ class ReceiptSerializer(serializers.ModelSerializer):
     Сериализация рецептов
     """
     creator = UserSerializer()
-    time_to_eat = TimeToEatSerializer()
+    # time_to_eat = TimeToEatSerializer(many=False)
     products = ProductSerializer(many=True)
 
     class Meta:
         model = Receipt
-        fields = ('title', 'creator', 'description', 'time_to_eat', 'date', 'products', 'calories',
+        fields = ('title', 'creator', 'description', 'date', 'products', 'calories',
                   'proteins', 'fats', 'carbohydrates', 'moderation')
+        # fields = '__all__'
 
 
 class ProductForFridgeSerializer(serializers.ModelSerializer):

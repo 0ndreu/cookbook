@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from OuiCheff.views import FridgeViewSet, ProductViewSet
+from OuiCheff.views import FridgeViewSet, ProductViewSet, ReceiptsViewSet
 
 
 router = DefaultRouter()
 router.register('fridge', FridgeViewSet, base_name='fridge')
-router.register('product', ProductViewSet, base_name='fridge')
+router.register('product', ProductViewSet, base_name='product')
+router.register('receipt', ReceiptsViewSet, base_name='receipt')
 
 
 urlpatterns = [

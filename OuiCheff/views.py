@@ -24,7 +24,16 @@ class FridgeViewSet(viewsets.ModelViewSet):
     продукты в холодильнике и их добавление
     """
     serializer_class = FridgeSerializer
-    lookup_field = 'product_id'
 
     def get_queryset(self):
         return Fridge.objects.filter(user=self.request.user)
+
+
+class ReceiptsViewSet(viewsets.ModelViewSet):
+    permissions = [permissions.AllowAny]
+
+    serializer_class = ReceiptSerializer
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return Receipt.objects.all()

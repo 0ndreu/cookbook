@@ -19,9 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-
-
-
 ALLOWED_HOSTS = ['*']
 
 
@@ -36,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_summernote',
-
+    # 'cookbook.wsgi.application',
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
@@ -46,10 +43,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    #'corsheaders.middleware.CorsMiddleWare',  # в начале может мешать, но потом надо включить
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+   'corsheaders.middleware.CorsMiddleware',         #
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
