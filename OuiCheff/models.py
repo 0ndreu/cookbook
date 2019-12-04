@@ -36,12 +36,19 @@ class Product(models.Model):
 
 
 class Receipt(models.Model):
+    TIME_TO_EAT = (
+        ('з', 'завтрак'),
+        ('о', 'обед'),
+        ('у', 'ужин'),
+        ('п', 'перекус'),
+        ('оо', 'обед или ужин')
+    )
+    time_to_eat = models.CharField(choices=TIME_TO_EAT, default=3, max_length=2)
     title = models.CharField(max_length=128)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     description = models.TextField(max_length=1000, default='')
-    time_to_eat = models.ManyToManyField(TimeToEat)
+    # time_to_eat = models.ManyToManyField(TimeToEat)
     date = models.DateTimeField(auto_now_add=True)
-    products = models.ManyToManyField(Product)
     calories = models.FloatField(default=0)
     proteins = models.FloatField(default=0)
     fats = models.FloatField(default=0)

@@ -30,10 +30,25 @@ class FridgeViewSet(viewsets.ModelViewSet):
 
 
 class ReceiptsViewSet(viewsets.ModelViewSet):
-    permissions = [permissions.AllowAny]
+    permissions = [permissions.IsAuthenticated]
 
     serializer_class = ReceiptSerializer
     lookup_field = 'id'
 
+    queryset = Receipt.objects.all()
+
+
+class ReceiptHasProductView(viewsets.ModelViewSet):
+    """
+    во вью:                                                     ?????????????????
+    url: 'http://127.0.0.1:8000/products_in_receipt/',
+    type: 'GET',
+    data: {
+        receipt: this.id,
+    },                                                          ?????????????????
+    """
+    serializer_class = ProductsInReceiptSerializer
+
     def get_queryset(self):
-        return Receipt.objects.all()
+        receipt = self.request.GET.get('receipt')
+        return ReceiptHasProduct.objects.filter(receipt=receipt)

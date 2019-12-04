@@ -27,33 +27,28 @@ class TimeToEatSerializer(serializers.ModelSerializer):
         fields = 'time_to_eat'      # is that true??
 
 
-class ReceiptSerializer(serializers.ModelSerializer):
-    """
-    Сериализация рецептов
-    """
-    creator = UserSerializer()
-    # time_to_eat = TimeToEatSerializer(many=False)
-    products = ProductSerializer(many=True)
-
-    class Meta:
-        model = Receipt
-        fields = ('title', 'creator', 'description', 'date', 'products', 'calories',
-                  'proteins', 'fats', 'carbohydrates', 'moderation')
-        # fields = '__all__'
-
-
 class ProductForFridgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('title', 'description', 'metric')
 
 
-class FridgeDetailSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(many=False)
+class ReceiptSerializer(serializers.ModelSerializer):
+    """
+    Сериализация рецептов
+    """
+    # creator = UserSerializer()
+    # time_to_eat = TimeToEatSerializer(many=False)
+    creator = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # products = ProductSerializer(many=True)
+    # product = PrimaryKeyRelatedField(required=True,
+    #                                  queryset=Product.objects.all())
 
     class Meta:
-        model = Fridge
-        fields = '__all__'
+        model = Receipt
+        fields = ('title', 'description', 'date', 'calories',
+                  'proteins', 'fats', 'carbohydrates', 'time_to_eat', 'creator')
+        # fields = '__all__'
 
 
 class FridgeSerializer(serializers.ModelSerializer):
@@ -63,28 +58,19 @@ class FridgeSerializer(serializers.ModelSerializer):
     product = serializers.PrimaryKeyRelatedField(required=True,
                                                  queryset=Product.objects.all())
 
-    # def create(self, validated_data):
-    #     user = self.context['request'].user
-    #     how_many = validated_data['nums']
-    #     product = validated_data['product']
-    #
-    #     existed = Fridge.objects.filter(user=user, product=product)
-    #
-    #     if existed:
-    #         existed = existed[0]
-    #         existed.nums += how_many
-    #         existed.save()
-    #     # 如果购物车车没有记录，就创建
-    #     else:
-    #         existed = Fridge.objects.create(**validated_data)
-    #
-    #     return existed
-
-    # def update(self, instance, validated_data):
-    #     instance.how_many = validated_data['how_many']
-    #     instance.save()
-    #     return instance
-
     class Meta:
         model = Fridge
+        fields = '__all__'
+
+
+class ProductsInReceiptSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(required=True,
+                                                 queryset=Product.objects.all())
+    receipt = serializers.PrimaryKeyRelatedField(required=True,
+                                                 queryset=Receipt.objects.all())
+    count_of_product = serializers.IntegerField(required=True,
+                                                min_value=0)
+
+    class Meta:
+        model = ReceiptHasProduct
         fields = '__all__'
