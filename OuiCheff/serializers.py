@@ -68,6 +68,7 @@ class ProductsInReceiptSerializer(serializers.ModelSerializer):
                                                  queryset=Product.objects.all())
     receipt = serializers.PrimaryKeyRelatedField(required=True,
                                                  queryset=Receipt.objects.all())
+    # receipt = serializers.PrimaryKeyRelatedField(default=serializers.)
     count_of_product = serializers.IntegerField(required=True,
                                                 min_value=0)
 
